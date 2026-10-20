@@ -899,7 +899,7 @@ export const EXERCISES = {
         },
         unit: 'reps', //vs duration    
         muscles: ['shoulders'],
-        description: 'Seated on a bench with a back rest, hold the dumbbells in-front of you at eye height, palms facing your face. Keeping the dumbbells at their current height, open your shoulders and move your elbows to either side until the dumbbells are next to your ears, your palms facing forwards, and then press them up overhead.',
+        description: 'From a side plank on your hand (arm straight, under your shoulder), raise your top arm to the ceiling and then your top leg, making a star shape. Hold for a moment and lower slowly. Rest your bottom knee on the ground to make it easier.',
         substitutes: ['lying ts']
     },
     back_squats: {
@@ -1600,7 +1600,7 @@ export const EXERCISES = {
         },
         unit: 'reps', //vs duration    
         muscles: ['triceps'],
-        description: 'Lie either flat or on a slight incline with heavy dumbbells in each hand directly above your skull. Starting with your arms straight, lower the weight down either either side of your forehead and then press it back up. Begin with palms facing the ceiling to neutral grip besides your ears.',
+        description: 'Stand facing away from the cable, set at head height, holding the handle in one hand beside your ear with your elbow pointing forward. Straighten your arm, pushing the handle forward and slightly up. Return slowly and repeat on the other arm.',
         substitutes: ['face press']
     },
     jack_knives: {

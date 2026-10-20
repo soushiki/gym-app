@@ -1,10 +1,11 @@
 import { EXERCISES, SCHEMES, TEMPOS, WORKOUTS } from "./swoldier"
+import { LEVELS } from "./guide"
 const exercises = exercisesFlattener(EXERCISES)
 
 export function generateWorkout(args) {
-    const { muscles, poison: workout, goal } = args
+    const { muscles, poison: workout, goal, level = "advanced", location = "gym" } = args
     let exer = Object.keys(exercises);
-    exer = exer.filter((key) => exercises[key].meta.environment !== "home");
+    exer = exer.filter((key) => isAvailable(exercises[key].meta, location));
     let includedTracker = [];
     let numSets = 5;
     let listOfMuscles;
@@ -106,7 +107,8 @@ export function generateWorkout(args) {
                 ) +
                 (setType === "accessory" ? 4 : 0)
                 : Math.floor(Math.random() * 40) + 20;
-        const tempo = TEMPOS[Math.floor(Math.random() * TEMPOS.length)];
+        const tempos = level === "beginner" ? BEGINNER_TEMPOS : TEMPOS;
+        const tempo = tempos[Math.floor(Math.random() * tempos.length)];
 
         if (exercises[randomExercise].unit === "reps") {
             const tempoSum = tempo
@@ -130,9 +132,21 @@ export function generateWorkout(args) {
         };
     });
 
-    return genWOD.filter(
-        (element) => Object.keys(element).length > 0
-    );
+    return genWOD
+        .filter((element) => Object.keys(element).length > 0)
+        .slice(0, LEVELS[level].maxExercises);
+}
+
+// Smooth, controlled tempos only: no long pauses or explosive reps for beginners.
+const BEGINNER_TEMPOS = ['3 0 2', '2 2 2', '2 1 1']
+const HOME_EQUIPMENT = ['bands', 'band', 'dumbbells', 'dumbbell']
+
+function isAvailable(meta, location) {
+    if (location === "gym") {
+        return meta.environment !== "home"
+    }
+    return meta.environment.includes("home") &&
+        meta.equipment.every((item) => HOME_EQUIPMENT.includes(item))
 }
 
 function shuffleArray(array) {
@@ -150,7 +164,7 @@ function exercisesFlattener(exercisesObj) {
 
     for (const [key, val] of Object.entries(exercisesObj)) {
         if (!("variants" in val)) {
-            flattenedObj[key] = val
+            flattenedObj[key] = { ...val, base: key }
         } else {
             for (const variant in val.variants) {
                 let variantName = variant + "_" + key
@@ -160,9 +174,11 @@ function exercisesFlattener(exercisesObj) {
 
                 flattenedObj[variantName] = {
                     ...val,
+                    base: key,
+                    variant,
                     description: val.description + '___' + val.variants[variant],
                     substitutes: [
-                        ...val.substitutes, variantSubstitutes
+                        ...val.substitutes, ...variantSubstitutes
                     ].slice(0, 5)
                 }
             }

@@ -22,3 +22,59 @@ span{
   box-shadow: 6px 6px 0 0 #60a5fa;
 
 }
+
+/* Keyboard users can always see where they are. */
+:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .blueShadow:hover { transform: none; }
+}
+
+/* Language toggle: stays on screen where the side margins are empty,
+   otherwise it sits at the top of the page so it never covers content. */
+.lang-toggle { position: fixed; }
+@media (max-width: 1100px), (max-height: 500px) {
+  .lang-toggle { position: absolute; }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .hero { min-height: 100svh; gap: 1.75rem; padding-top: 2rem; padding-bottom: 2rem; }
+  .hero h1 { font-size: clamp(2rem, 10.5vw, 3rem); }
+  .section-banner { padding-top: 1.75rem; padding-bottom: 1.75rem; }
+  .option { min-height: 3rem; }
+  .set-btn { width: 3.25rem; height: 3.25rem; }
+}
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .hero { min-height: 100svh; }
+  .section-banner { padding-top: 2rem; padding-bottom: 2rem; }
+}
+
+/* Tablet in portrait: plenty of height, so let the hero breathe. */
+@media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+  .hero { min-height: 80svh; }
+}
+
+/* Short screens (phones in landscape): no forced full-height sections. */
+@media (max-height: 500px) {
+  .hero, section { min-height: auto; }
+  .hero { gap: 1.25rem; padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .section-banner { padding-top: 1rem; padding-bottom: 1rem; }
+  .rest-timer { padding-top: 0.4rem; padding-bottom: 0.4rem; }
+  .rest-clock { font-size: 1.75rem; line-height: 2rem; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 1024px) {
+  .set-btn { width: 2.75rem; height: 2.75rem; }
+}
